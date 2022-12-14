@@ -18,7 +18,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from "swiper";
-import { getTrending } from "../api/trendingApi";
+import { getTVTrending } from "../../api/trendingApi";
 import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@mantine/carousel";
 
@@ -86,8 +86,8 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
     data: trendingData,
     isLoading: trdIsLoading,
     isSuccess: trdIsSuccess,
-  } = useQuery(["trending"], getTrending);
-  // console.log("🍙", trendingData);
+  } = useQuery(["tv trending"], getTVTrending);
+  console.log("🍙", trendingData);
   return (
     <Flex align="flex-start">
       <Paper shadow="xl" radius="lg" p="md" ml={35} mt={30} w={1000}>
@@ -95,10 +95,10 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
           <Flex m={20}>
             <Text className={classes.fontStyle}>Trending</Text>
             <Flex ml="md" align="flex-end">
-              <Code color="blue">
+              <Code color="pink">
                 <Text
                   variant="gradient"
-                  gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+                  gradient={{ from: "purple", to: "pink", deg: 45 }}
                 >
                   {media_type}
                 </Text>
@@ -126,7 +126,7 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
             modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
             className="mySwiper"
           >
-            {trdIsLoading && <SwiperSlide>Loading...</SwiperSlide>}
+            {trdIsLoading && <div>Loading...</div>}
             {trdIsSuccess &&
               trendingData.results.map((td: any) => (
                 <div key={td.id}>
@@ -147,23 +147,14 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         alt="poster img"
                       />
                       <div className={classes.title}>
-                        {td.title}
+                        {td.name}
                         <Text className={classes.trendingMovie}
                           variant="gradient"
                           gradient={{ from: "indigo", to: "cyan", deg: 45 }}
                         >
-                          {td.media_type}
+                          {td.media_type.toUpperCase()}
                         </Text>
                       </div>
-
-                      {/* <div className={classes.group}>
-                          <Text className={classes.category} size="xs">
-                            {td.media_type}
-                          </Text>
-                          <Title order={3} className={classes.title}>
-                            {td.original_title}
-                          </Title>
-                        </div> */}
                     </Box>
                   </SwiperSlide>
                 </div>
@@ -175,94 +166,3 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
   );
 }
 
-// function Card({ image, title, media_type }: CardProps) {
-//   const { classes } = useStyles();
-
-//   return (
-//     <Paper
-//       shadow="md"
-//       p="xl"
-//       radius="md"
-//       sx={{ backgroundImage: `url(${image})` }}
-//       className={classes.card}
-//     >
-//       <div>
-//         <Text className={classes.category} size="xs">
-//           {media_type}
-//         </Text>
-//         <Title order={3} className={classes.title}>
-//           {title}
-//         </Title>
-//       </div>
-//       <Button variant="white" color="dark">
-//         Read article
-//       </Button>
-//     </Paper>
-//   );
-// }
-// export function Trending({ media_type }: CardProps) {
-//   const { classes } = useStyles();
-//   const theme = useMantineTheme();
-//   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
-//   const {
-//     data: trendingData,
-//     isLoading: trdIsLoading,
-//     isSuccess: trdIsSuccess,
-//   } = useQuery(["trending"], getTrending);
-//   // console.log("🍙", trendingData);
-//   const slides =
-//     trdIsSuccess &&
-//     trendingData.results.map((td: any) => (
-//       <Carousel.Slide key={td.id}>
-//         <Box sx={{ maxWidth: 400 }} mx="auto">
-//           <BackgroundImage
-//             h={550}
-//             radius="lg"
-//             opacity={0.8}
-//             src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
-//             // alt="poster img"
-//           >
-//             {/* {console.log(td.original_title)} */}
-//             <div className={classes.group}>
-//               <Text className={classes.category} size="xs">
-//                 {td.media_type}
-//               </Text>
-//               <Title order={3} className={classes.title}>
-//                 {td.original_title}
-//               </Title>
-//             </div>
-//             <Button className={classes.button} variant="white" color="dark">
-//               More Details
-//             </Button>
-//           </BackgroundImage>
-//         </Box>
-//       </Carousel.Slide>
-//     ));
-//   return (
-//     <Flex direction="column" className={classes.group}>
-//       <Flex className={classes.td}>
-//         <Text className={classes.fontStyle}>Trending</Text>
-//         <Flex ml="md" align="flex-end">
-//           <Code color="blue">
-//             <Text
-//               variant="gradient"
-//               gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-//             >
-//               {media_type}
-//             </Text>
-//           </Code>
-//         </Flex>
-//       </Flex>
-
-//       <Carousel
-//         slideSize="10%"
-//         breakpoints={[{ maxWidth: "xs", slideSize: "100%", slideGap: 2 }]}
-//         slideGap="xs"
-//         align="start"
-//         slidesToScroll={mobile ? 1 : 2}
-//       >
-//         {slides}
-//       </Carousel>
-//     </Flex>
-//   );
-// }

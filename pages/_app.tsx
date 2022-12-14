@@ -2,10 +2,11 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import Outlet from "../components/Outlet";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-
+  const queryClient = new QueryClient();
   return (
     <>
       <Head>
@@ -16,7 +17,7 @@ export default function App(props: AppProps) {
         />
         <link rel="icon" href="/popcorn.svg" />
       </Head>
-
+      <QueryClientProvider client={queryClient}>
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -30,6 +31,7 @@ export default function App(props: AppProps) {
           <Component {...pageProps} />
         </Outlet>
       </MantineProvider>
+      </QueryClientProvider>
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   UnstyledButton,
   createStyles,
   Stack,
+  Box,
 } from "@mantine/core";
 import {
   TablerIcon,
@@ -26,7 +27,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: 'black',
+    color: "black",
     opacity: 0.75,
 
     "&:hover": {
@@ -70,7 +71,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 
 const mockdata = [
   { icon: IconHome2, label: "Home", path: "/" },
-  { icon: IconCategory, label: "Category", path: "/" },
+  // { icon: IconCategory, label: "Category", path: "/" },
   { icon: IconMovie, label: "Movie", path: "movie" },
   { icon: IconDeviceTv, label: "TV", path: "tv" },
 ];
@@ -92,31 +93,35 @@ export default function Navibar() {
   ));
   const { classes } = useStyles();
   return (
-    <Navbar
-      className={classes.br}
-      height={650}
-      width={{ base: 80 }}
-      my="xl"
-      pt="xl"
-      p="md"
-      sx={(theme) => ({
-        backgroundColor: '#FBEDB4',
-      })}
-    >
-      {/* <Center>
+    <Box pos='fixed'>
+      <Navbar
+        className={classes.br}
+        height={650}
+        // height={window.innerHeight}
+        // style={{ minHeight: "1000px" }}
+        width={{ base: 80 }}
+        my="xl"
+        pt="xl"
+        p="md"
+        sx={(theme) => ({
+          backgroundColor: "#FBEDB4",
+        })}
+      >
+        {/* <Center>
         <MantineLogo type="mark" inverted size={30} />
       </Center> */}
-      <Navbar.Section grow mt={110}>
-        <Stack justify="center" spacing={35}>
-          {links}
-        </Stack>
-      </Navbar.Section>
-      {/* <Navbar.Section>
+        <Navbar.Section grow mt={110}>
+          <Stack justify="center" spacing={35}>
+            {links}
+          </Stack>
+        </Navbar.Section>
+        {/* <Navbar.Section>
         <Stack justify="center" spacing={20}>
           <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
           <NavbarLink icon={IconLogout} label="Logout" />
         </Stack>
       </Navbar.Section> */}
-    </Navbar>
+      </Navbar>
+    </Box>
   );
 }

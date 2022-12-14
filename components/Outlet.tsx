@@ -3,7 +3,7 @@ import Image from "next/image";
 import Navbar from "../components/Navibar";
 import Search from "../components/Search";
 import styles from "../styles/Home.module.css";
-import { Flex, Text, createStyles } from "@mantine/core";
+import { Flex, Text, createStyles, Container } from "@mantine/core";
 import Logo from "../components/Logo";
 import React from "react";
 
@@ -20,6 +20,15 @@ const useStyles = createStyles((theme) => ({
     border: 10,
     borderWidth: 30,
   },
+  header: {
+    position: "sticky",
+    top: 0,
+    backgroundColor: "white",
+    zIndex: 999,
+    // boxShadow:
+    //   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+    // width: "100%",
+  },
 }));
 
 // @ts-ignore
@@ -33,7 +42,7 @@ export default function Outlet({ children }) {
       </Head>
 
       <main>
-        <Flex p={28} justify="space-between">
+        <Flex p={28} justify="space-between" className={classes.header}>
           <Flex className={classes.border}>
             <Logo />
             <Flex align="center">
@@ -44,11 +53,10 @@ export default function Outlet({ children }) {
           <Search />
         </Flex>
         <Flex dir="row">
-            <Navbar />
-        {/* @ts-ignore */}
-        {children}
+          <Navbar />
+          {/* @ts-ignore */}
+          {children}
         </Flex>
-      
       </main>
 
       <footer className={styles.footer}></footer>
