@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css";
 import { Flex, Text, createStyles, Container } from "@mantine/core";
 import Logo from "../components/Logo";
 import React from "react";
+import picFooter from '../assets/footer.svg';
 
 const useStyles = createStyles((theme) => ({
   headerFont: {
@@ -29,6 +30,15 @@ const useStyles = createStyles((theme) => ({
     //   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
     // width: "100%",
   },
+  footer:{
+    textShadow: "#FC0 1px 0 20px;",
+    fontWeight:900,
+    // color:'gray',
+    // opacity: 0.5 
+  },
+  footer2:{
+    margin: 50,
+  }
 }));
 
 // @ts-ignore
@@ -59,7 +69,12 @@ export default function Outlet({ children }) {
         </Flex>
       </main>
 
-      <footer className={styles.footer}></footer>
+      <footer className={classes.footer2}>
+       <Flex direction='column' align='center'>
+        <Text fw={900}  variant="gradient"  gradient={{ from: "#0d253f", to: "#90cea1", deg: 45 }}>Powered by</Text>
+        <Image width={50} height={50} src={picFooter} alt='footer'/>
+       </Flex>
+        </footer>
     </div>
   );
 }

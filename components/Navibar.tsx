@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Navbar,
   Center,
@@ -18,6 +18,7 @@ import {
   // IconSwitchHorizontal,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
+import Link from 'next/link'
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -51,14 +52,16 @@ const useStyles = createStyles((theme) => ({
 interface NavbarLinkProps {
   icon: TablerIcon;
   label: string;
+  href: string;
   active?: boolean;
   onClick?(): void;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, active,href, onClick }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
-    <Tooltip label={label} position="right" transitionDuration={0}>
+   <Link href={href}>
+     <Tooltip label={label} position="right" transitionDuration={0}>
       <UnstyledButton
         onClick={onClick}
         className={cx(classes.link, { [classes.active]: active })}
@@ -66,14 +69,15 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
         <Icon stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
+   </Link>
   );
 }
 
 const mockdata = [
   { icon: IconHome2, label: "Home", path: "/" },
   // { icon: IconCategory, label: "Category", path: "/" },
-  { icon: IconMovie, label: "Movie", path: "movie" },
-  { icon: IconDeviceTv, label: "TV", path: "tv" },
+  { icon: IconMovie, label: "Movie", path: "/movie" },
+  { icon: IconDeviceTv, label: "TV", path: "/tv" },
 ];
 
 export default function Navibar() {
@@ -83,14 +87,31 @@ export default function Navibar() {
   const links = mockdata.map((link, index) => (
     <NavbarLink
       {...link}
+      href={link.path}
       key={link.label}
       active={index === active}
-      onClick={() => {
-        setActive(index);
-        router.push(link.path);
-      }}
+      // onClick={() => {
+      //   setActive(index);
+      //   router.push(link.path);
+      // }}
     />
   ));
+  // console.log(router.pathname)
+
+  useEffect(() => {
+   if(router.pathname==='/movie')
+    {
+      setActive(1)
+    }else if(router.pathname==='/tv')
+    {
+      setActive(2)
+    }else{
+      setActive(0)
+    }
+  
+  
+  }, [router.pathname])
+  
   const { classes } = useStyles();
   return (
     <Box pos='fixed'>
