@@ -12,6 +12,7 @@ import {
   } from "@mantine/core";
   import { useQuery } from "@tanstack/react-query";
   import Image from "next/image";
+import Link from "next/link";
   import React from "react";
   import { getTopRated, getUpcoming } from "../api/popularApi";
   const useStyles = createStyles((theme) => ({
@@ -49,7 +50,7 @@ export default function NowPlaying({ media_type }: CardProps): JSX.Element {
       data: trData,
       isLoading: trIsLoading,
       isSuccess: trIsSuccess,
-    } = useQuery(["Top Rated"], getTopRated);
+    } = useQuery(["Top Rated"],() => getTopRated());
     const cards = 
       trIsSuccess &&
       trData.results.slice(0, 4).map((tr: any) => (
@@ -102,7 +103,7 @@ export default function NowPlaying({ media_type }: CardProps): JSX.Element {
             </Code>
           </Flex>
         </Flex>
-        <Button variant="subtle" color="yellow" uppercase>
+        <Button component={Link}  href="/movie/top/1"  variant="subtle" color="yellow" uppercase>
           See more
         </Button>
       </Flex>

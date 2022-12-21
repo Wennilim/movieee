@@ -18,7 +18,7 @@ import { getTrending } from "../../../api/trendingApi";
 import { Pagination } from "@mantine/core";
 import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import Link from "next/link";
-// import ErrorPage from "../../../components/error/errorPage";
+import { getTVTrending } from "../../../api/trendingApi";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -33,7 +33,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 600,
-    fontSize: 16,
+    fontSize: 10,
   },
 
   category: {
@@ -69,42 +69,43 @@ const useStyles = createStyles((theme) => ({
   button01: {
     cursor: "not-allowed",
   },
-})); 
+}));
 
-export default function Trending() {
+export default function TVTrending() {
   const router = useRouter();
   const page = Number(router.query.id);
   const { classes } = useStyles();
   const {
-    data: trendingData,
-    isLoading: trdIsLoading,
-    isSuccess: trdIsSuccess,
-  } = useQuery(["trending", page], () => getTrending(page));
+    data: tvTrendingData,
+    isLoading: tvTrendingIsLoading,
+    isSuccess: tvTrendingIsSuccess,
+  } = useQuery(["tvtrending", page], () => getTVTrending(page));
 
   if (page < 1 || page > 1000) {
     return null;
   }
-
+ 
   return (
+    // <div>{router.query.id}</div>
     <Container>
        <Flex m={20}>
             <Text className={classes.fontStyle}>Trending</Text>
             <Flex ml="md" align="flex-end">
-              <Code color="blue">
+              <Code color="pink">
                 <Text
                   variant="gradient"
-                  gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+                  gradient={{ from: "purple", to: "pink", deg: 45 }}
                   fw={800}
                   fz={10}
                 >
-                  MOVIE
+                  TV SERIES
                 </Text>
               </Code>
             </Flex>
           </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
-        {trdIsSuccess &&
-          trendingData.results.map((tr: any) => (
+        {tvTrendingIsSuccess &&
+          tvTrendingData.results.map((tr: any) => (
             <>
               <Card
                 key={tr.id}
@@ -122,7 +123,6 @@ export default function Trending() {
                     width={0}
                     height={0}
                     src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                    // src={Dog}
                     alt="pic"
                   />
                   {/* </AspectRatio> */}
@@ -133,10 +133,10 @@ export default function Trending() {
                     weight={700}
                     mt="md"
                   >
-                    {tr.release_date?.slice(0, 4)}
+                    {tr.first_air_date?.slice(0, 4)}
                   </Text>
-                  <Text className={classes.title} mt={5}>
-                    {tr.title}
+                  <Text fz={13} fw={800} mt={5}>
+                    {tr.name}
                   </Text>
                 </Card.Section>
               </Card>
@@ -145,25 +145,24 @@ export default function Trending() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link href={`/movie/trending/${page - 1}`}>
-         
+        <Link href={`/tv/trending/${page - 1}`}>
           <Button
             // data-disabled={page === 1}
             // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
             // onClick={(event) => event.preventDefault()}
-            disabled={page===1}
+            disabled={page === 1}
             color="yellow"
           >
             Previous
           </Button>
         </Link>
         <Text className={classes.paddingPagination}>
-          {page} of {trendingData?.total_pages}
+          {page} of {tvTrendingData?.total_pages}
         </Text>
-        <Link
-          href={`/movie/trending/${page + 1}`}
-        >
-          <Button disabled={page === 1000} color="yellow">Next</Button>
+        <Link href={`/tv/trending/${page + 1}`}>
+          <Button disabled={page === 1000} color="yellow">
+            Next
+          </Button>
         </Link>
       </Flex>
     </Container>

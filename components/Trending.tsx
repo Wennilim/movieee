@@ -87,7 +87,7 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
     data: trendingData,
     isLoading: trdIsLoading,
     isSuccess: trdIsSuccess,
-  } = useQuery(["trending"], getTrending);
+  } = useQuery(["trending"], () => getTrending(1));
   // console.log("🍙", trendingData);
   return (
     <Flex align="flex-start">
@@ -154,7 +154,7 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
                         alt="poster img"
                       />
-                      <div className={classes.title}>
+                      {/* <div className={classes.title}>
                         {td.title}
                         <Text
                           className={classes.trendingMovie}
@@ -163,6 +163,26 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         >
                           {td.media_type}
                         </Text>
+                      </div> */}
+                      <div>
+                        <Text className={classes.title}>{td.title}</Text>
+
+                        <Flex mt={15}>
+                          <Code
+                            className={classes.trendingMovie}
+                            color="yellow"
+                            fw={800}
+
+                            // variant="gradient"
+                            // gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+                          >
+                            {td.media_type.toUpperCase()} •{" "}
+                            {td.release_date.slice(0, 4)}
+                          </Code>
+                          {/* <Text color="black" fw={900} fz={12}>
+                        {td.first_air_date.slice(0,4)}
+                        </Text> */}
+                        </Flex>
                       </div>
                     </Box>
                   </SwiperSlide>

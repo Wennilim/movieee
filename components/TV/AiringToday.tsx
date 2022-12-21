@@ -12,6 +12,7 @@ import {
   } from "@mantine/core";
   import { useQuery } from "@tanstack/react-query";
   import Image from "next/image";
+import Link from "next/link";
   import React from "react";
   import { getTVAiring } from "../../api/popularTVAPi";
   const useStyles = createStyles((theme) => ({
@@ -50,7 +51,7 @@ import {
       data: arData,
       isLoading: arIsLoading,
       isSuccess: arIsSuccess,
-    } = useQuery(["airing"], getTVAiring);
+    } = useQuery(["airing"],() => getTVAiring());
     const cards = 
       arIsSuccess &&
       arData.results.slice(0, 4).map((ar: any) => (
@@ -85,7 +86,7 @@ import {
         </Card>
       ));
   
-    console.log('🏀',arData);
+    // console.log('🏀',arData);
     return (
       <Flex align="flex-start">
         <Paper shadow="xl" radius="lg" p="md" ml={35} mt={30} w={1000}>
@@ -103,7 +104,8 @@ import {
                 </Code>
               </Flex>
             </Flex>
-            <Button variant="subtle" color="yellow" uppercase>
+            <Button component={Link}
+          href="/tv/airing/1" variant="subtle" color="yellow" uppercase>
               See more
             </Button>
           </Flex>

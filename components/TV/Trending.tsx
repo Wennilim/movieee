@@ -21,6 +21,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from "swiper";
 import { getTVTrending } from "../../api/trendingApi";
 import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@mantine/carousel";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -65,16 +66,18 @@ const useStyles = createStyles((theme) => ({
   td: {
     paddingBottom: 15,
   },
-  trendingMovie:{
-    textShadow:'1px 1px 2px #F5634E, 0 0 1em #, 0 0 0.2em  #F1AD26',
-    fontSize: 14
-  }
+  trendingMovie: {
+    textShadow: "1px 1px 2px #F5634E, 0 0 1em #, 0 0 0.2em  #F1AD26",
+    fontSize: 14,
+    fontWeight: 800,
+  },
 }));
 type CardProps = {
   image?: string;
   title?: string;
   media_type: string;
   year?: string;
+  first_air_date: string;
 };
 
 // type Props = {
@@ -86,8 +89,9 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
     data: trendingData,
     isLoading: trdIsLoading,
     isSuccess: trdIsSuccess,
-  } = useQuery(["tv trending"], getTVTrending);
-  console.log("🍙", trendingData);
+  } = useQuery(["tv trending"], () => getTVTrending(1));
+  // console.log("🍙", trendingData?.results[0].first_air_date.slice(0,4));
+  console.log("🥇", typeof trendingData?.results[0].first_air_date.slice(0, 4));
   return (
     <Flex align="flex-start">
       <Paper shadow="xl" radius="lg" p="md" ml={35} mt={30} w={1000}>
@@ -105,7 +109,13 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
               </Code>
             </Flex>
           </Flex>
-          <Button variant="subtle" color="yellow" uppercase>
+          <Button
+            component={Link}
+            href="/tv/trending/1"
+            variant="subtle"
+            color="yellow"
+            uppercase
+          >
             See more
           </Button>
         </Flex>
@@ -146,14 +156,25 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
                         alt="poster img"
                       />
-                      <div className={classes.title}>
-                        {td.name}
-                        <Text className={classes.trendingMovie}
-                          variant="gradient"
-                          gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-                        >
-                          {td.media_type.toUpperCase()}
-                        </Text>
+                      <div>
+                        <Text className={classes.title}>{td.name}</Text>
+
+                        <Flex mt={15}>
+                          <Code
+                            className={classes.trendingMovie}
+                            color="yellow"
+                            fw={800}
+
+                            // variant="gradient"
+                            // gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+                          >
+                            {td.media_type.toUpperCase()} •{" "}
+                            {td.first_air_date.slice(0, 4)}
+                          </Code>
+                          {/* <Text color="black" fw={900} fz={12}>
+                        {td.first_air_date.slice(0,4)}
+                        </Text> */}
+                        </Flex>
                       </div>
                     </Box>
                   </SwiperSlide>
@@ -165,4 +186,3 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
     </Flex>
   );
 }
-

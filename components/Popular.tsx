@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { getPopular } from "../api/popularApi";
 const useStyles = createStyles((theme) => ({
@@ -50,8 +51,8 @@ export default function Popular({ media_type }: CardProps): JSX.Element {
     data: popularData,
     isLoading: popularIsLoading,
     isSuccess: popularIsSuccess,
-  } = useQuery(["popular"], getPopular);
-  const cards = 
+  } = useQuery(["popular"], () => getPopular());
+  const cards =
     popularIsSuccess &&
     popularData.results.slice(0, 4).map((pd: any) => (
       <Card
@@ -70,14 +71,8 @@ export default function Popular({ media_type }: CardProps): JSX.Element {
             alt="pic"
           />
         </AspectRatio>
-        <Text
-          color="red"
-          size="xs"
-          transform="uppercase"
-          weight={700}
-          mt="md"
-        >
-          {pd.release_date?.slice(0,4)}
+        <Text color="red" size="xs" transform="uppercase" weight={700} mt="md">
+          {pd.release_date?.slice(0, 4)}
         </Text>
         <Text className={classes.title} mt={5}>
           {pd.title}
@@ -103,7 +98,13 @@ export default function Popular({ media_type }: CardProps): JSX.Element {
               </Code>
             </Flex>
           </Flex>
-          <Button variant="subtle" color="yellow" uppercase>
+          <Button
+            component={Link}
+            href="/movie/popular/1"
+            variant="subtle"
+            color="yellow"
+            uppercase
+          >
             See more
           </Button>
         </Flex>

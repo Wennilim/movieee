@@ -18,7 +18,7 @@ import { getTrending } from "../../../api/trendingApi";
 import { Pagination } from "@mantine/core";
 import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import Link from "next/link";
-// import ErrorPage from "../../../components/error/errorPage";
+import { getPopular } from "../../../api/popularApi";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -69,26 +69,27 @@ const useStyles = createStyles((theme) => ({
   button01: {
     cursor: "not-allowed",
   },
-})); 
+}));
 
-export default function Trending() {
+export default function Popular() {
   const router = useRouter();
   const page = Number(router.query.id);
   const { classes } = useStyles();
   const {
-    data: trendingData,
-    isLoading: trdIsLoading,
-    isSuccess: trdIsSuccess,
-  } = useQuery(["trending", page], () => getTrending(page));
+    data: popularData,
+    isLoading: popularIsLoading,
+    isSuccess: popularIsSuccess,
+  } = useQuery(["popular", page], () => getPopular(page));
 
   if (page < 1 || page > 1000) {
     return null;
   }
 
   return (
+    // <div>{router.query.id}</div>
     <Container>
        <Flex m={20}>
-            <Text className={classes.fontStyle}>Trending</Text>
+            <Text className={classes.fontStyle}>Popular</Text>
             <Flex ml="md" align="flex-end">
               <Code color="blue">
                 <Text
@@ -103,8 +104,8 @@ export default function Trending() {
             </Flex>
           </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
-        {trdIsSuccess &&
-          trendingData.results.map((tr: any) => (
+        {popularIsSuccess &&
+          popularData.results.map((tr: any) => (
             <>
               <Card
                 key={tr.id}
@@ -145,7 +146,7 @@ export default function Trending() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link href={`/movie/trending/${page - 1}`}>
+        <Link href={`/movie/popular/${page - 1}`}>
          
           <Button
             // data-disabled={page === 1}
@@ -158,10 +159,10 @@ export default function Trending() {
           </Button>
         </Link>
         <Text className={classes.paddingPagination}>
-          {page} of {trendingData?.total_pages}
+          {page} of {popularData?.total_pages}
         </Text>
         <Link
-          href={`/movie/trending/${page + 1}`}
+          href={`/movie/popular/${page + 1}`}
         >
           <Button disabled={page === 1000} color="yellow">Next</Button>
         </Link>
