@@ -81,7 +81,7 @@ type CardProps = {
 // type Props = {
 //   media_type: string;
 // };
-export default function Trending({ media_type }: CardProps): JSX.Element {
+export default function Trending({ media_type }: CardProps){
   const { classes } = useStyles();
   const {
     data: trendingData,
@@ -146,14 +146,19 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         position: "sticky",
                       }}
                     >
-                      <Image
-                        layout="responsive"
-                        objectFit="contain"
-                        width={470}
-                        height={230}
-                        src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
-                        alt="poster img"
-                      />
+                      <Link
+                      href={`/movie/${td.id}`}   
+                      >
+                        <Image
+                          layout="responsive"
+                          objectFit="contain"
+                          width={470}
+                          height={230}
+                          src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
+                          alt="poster img"
+                        />
+                      </Link>
+
                       {/* <div className={classes.title}>
                         {td.title}
                         <Text

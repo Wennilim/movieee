@@ -116,6 +116,7 @@ export default function Upcoming() {
                 >
                   <Card.Section>
                     {/* <AspectRatio ratio={470/230}> */}
+                    <Link  href={`/movie/${tr.id}`}   >
                     <Image
                       layout="responsive"
                       objectFit="cover"
@@ -125,6 +126,8 @@ export default function Upcoming() {
                       // src={Dog}
                       alt="pic"
                     />
+                    </Link>
+                    
                     {/* </AspectRatio> */}
                     <Text
                       color="red"

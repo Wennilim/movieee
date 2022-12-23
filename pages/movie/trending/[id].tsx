@@ -116,7 +116,10 @@ export default function Trending() {
               >
                 <Card.Section>
                   {/* <AspectRatio ratio={470/230}> */}
-                  <Image
+                  <Link
+                   href={`/movie/${tr.id}`}   
+                  >
+                      <Image
                     layout="responsive"
                     objectFit="cover"
                     width={0}
@@ -125,6 +128,8 @@ export default function Trending() {
                     // src={Dog}
                     alt="pic"
                   />
+                  </Link>
+              
                   {/* </AspectRatio> */}
                   <Text
                     color="red"

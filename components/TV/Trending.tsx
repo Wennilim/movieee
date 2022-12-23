@@ -148,7 +148,10 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         position: "sticky",
                       }}
                     >
-                      <Image
+                      <Link
+                       href={`/tv/${td.id}`}   
+                      >
+                         <Image
                         layout="responsive"
                         objectFit="contain"
                         width={470}
@@ -156,6 +159,8 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                         src={`https://image.tmdb.org/t/p/original/${td.poster_path}`}
                         alt="poster img"
                       />
+                      </Link>
+                   
                       <div>
                         <Text className={classes.title}>{td.name}</Text>
 
@@ -164,16 +169,10 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
                             className={classes.trendingMovie}
                             color="yellow"
                             fw={800}
-
-                            // variant="gradient"
-                            // gradient={{ from: "indigo", to: "cyan", deg: 45 }}
                           >
                             {td.media_type.toUpperCase()} •{" "}
-                            {td.first_air_date.slice(0, 4)}
+                            {td.first_air_date?.slice(0, 4)}
                           </Code>
-                          {/* <Text color="black" fw={900} fz={12}>
-                        {td.first_air_date.slice(0,4)}
-                        </Text> */}
                         </Flex>
                       </div>
                     </Box>

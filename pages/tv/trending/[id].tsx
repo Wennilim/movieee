@@ -84,25 +84,25 @@ export default function TVTrending() {
   if (page < 1 || page > 1000) {
     return null;
   }
- 
+
   return (
     // <div>{router.query.id}</div>
     <Container>
-       <Flex m={20}>
-            <Text className={classes.fontStyle}>Trending</Text>
-            <Flex ml="md" align="flex-end">
-              <Code color="pink">
-                <Text
-                  variant="gradient"
-                  gradient={{ from: "purple", to: "pink", deg: 45 }}
-                  fw={800}
-                  fz={10}
-                >
-                  TV SERIES
-                </Text>
-              </Code>
-            </Flex>
-          </Flex>
+      <Flex m={20}>
+        <Text className={classes.fontStyle}>Trending</Text>
+        <Flex ml="md" align="flex-end">
+          <Code color="pink">
+            <Text
+              variant="gradient"
+              gradient={{ from: "purple", to: "pink", deg: 45 }}
+              fw={800}
+              fz={10}
+            >
+              TV SERIES
+            </Text>
+          </Code>
+        </Flex>
+      </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
         {tvTrendingIsSuccess &&
           tvTrendingData.results.map((tr: any) => (
@@ -117,14 +117,17 @@ export default function TVTrending() {
               >
                 <Card.Section>
                   {/* <AspectRatio ratio={470/230}> */}
-                  <Image
-                    layout="responsive"
-                    objectFit="cover"
-                    width={0}
-                    height={0}
-                    src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                    alt="pic"
-                  />
+                  <Link href={`/tv/${tr.id}`}>
+                    <Image
+                      layout="responsive"
+                      objectFit="cover"
+                      width={0}
+                      height={0}
+                      src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
+                      alt="pic"
+                    />
+                  </Link>
+
                   {/* </AspectRatio> */}
                   <Text
                     color="red"

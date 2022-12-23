@@ -88,21 +88,21 @@ export default function Popular() {
   return (
     // <div>{router.query.id}</div>
     <Container>
-       <Flex m={20}>
-            <Text className={classes.fontStyle}>Popular</Text>
-            <Flex ml="md" align="flex-end">
-              <Code color="blue">
-                <Text
-                  variant="gradient"
-                  gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-                  fw={800}
-                  fz={10}
-                >
-                  MOVIE
-                </Text>
-              </Code>
-            </Flex>
-          </Flex>
+      <Flex m={20}>
+        <Text className={classes.fontStyle}>Popular</Text>
+        <Flex ml="md" align="flex-end">
+          <Code color="blue">
+            <Text
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              fw={800}
+              fz={10}
+            >
+              MOVIE
+            </Text>
+          </Code>
+        </Flex>
+      </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
         {popularIsSuccess &&
           popularData.results.map((tr: any) => (
@@ -117,15 +117,18 @@ export default function Popular() {
               >
                 <Card.Section>
                   {/* <AspectRatio ratio={470/230}> */}
-                  <Image
-                    layout="responsive"
-                    objectFit="cover"
-                    width={0}
-                    height={0}
-                    src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                    // src={Dog}
-                    alt="pic"
-                  />
+                  <Link href={`/movie/${tr.id}`}>
+                    <Image
+                      layout="responsive"
+                      objectFit="cover"
+                      width={0}
+                      height={0}
+                      src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
+                      // src={Dog}
+                      alt="pic"
+                    />
+                  </Link>
+
                   {/* </AspectRatio> */}
                   <Text
                     color="red"
@@ -147,12 +150,11 @@ export default function Popular() {
 
       <Flex justify="flex-end" dir="row" align="center">
         <Link href={`/movie/popular/${page - 1}`}>
-         
           <Button
             // data-disabled={page === 1}
             // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
             // onClick={(event) => event.preventDefault()}
-            disabled={page===1}
+            disabled={page === 1}
             color="yellow"
           >
             Previous
@@ -161,10 +163,10 @@ export default function Popular() {
         <Text className={classes.paddingPagination}>
           {page} of {popularData?.total_pages}
         </Text>
-        <Link
-          href={`/movie/popular/${page + 1}`}
-        >
-          <Button disabled={page === 1000} color="yellow">Next</Button>
+        <Link href={`/movie/popular/${page + 1}`}>
+          <Button disabled={page === 1000} color="yellow">
+            Next
+          </Button>
         </Link>
       </Flex>
     </Container>

@@ -116,7 +116,8 @@ export default function Top() {
                 >
                   <Card.Section>
                     {/* <AspectRatio ratio={470/230}> */}
-                    <Image
+                    <Link  href={`/movie/${tr.id}`}   >
+                      <Image
                       layout="responsive"
                       objectFit="cover"
                       width={0}
@@ -125,6 +126,8 @@ export default function Top() {
                       // src={Dog}
                       alt="pic"
                     />
+                    </Link>
+                  
                     {/* </AspectRatio> */}
                     <Text
                       color="red"

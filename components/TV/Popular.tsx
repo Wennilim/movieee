@@ -65,12 +65,15 @@ export default function Popular({ media_type }: CardProps): JSX.Element {
         className={classes.card}
       >
         <AspectRatio ratio={1920 / 1080}>
-          <Image
+          <Link href={`/tv/${pd.id}`}>
+              <Image
             width={470}
             height={230}
             src={`https://image.tmdb.org/t/p/original/${pd.backdrop_path}`}
             alt="pic"
           />
+          </Link>
+      
         </AspectRatio>
         <Text color="red" size="xs" transform="uppercase" weight={700} mt="md">
           {pd.first_air_date?.slice(0, 4)}

@@ -117,6 +117,7 @@ import { getTVAiring, getTVPopular } from "../../../api/popularTVAPi";
                 >
                   <Card.Section>
                     {/* <AspectRatio ratio={470/230}> */}
+                    <Link href={`/tv/${tr.id}`}>
                     <Image
                       layout="responsive"
                       objectFit="cover"
@@ -126,6 +127,8 @@ import { getTVAiring, getTVPopular } from "../../../api/popularTVAPi";
                       // src={Dog}
                       alt="pic"
                     />
+                    </Link>
+                 
                     {/* </AspectRatio> */}
                     <Text
                       color="red"
