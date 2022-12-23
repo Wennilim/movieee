@@ -77,7 +77,7 @@ type CardProps = {
   title?: string;
   media_type: string;
   year?: string;
-  first_air_date: string;
+  // first_air_date: string;
 };
 
 // type Props = {

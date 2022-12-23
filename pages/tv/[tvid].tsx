@@ -96,7 +96,7 @@ import { getTVCast, getTVDetails } from "../../api/tvAPI";
           setCast(tvCastsData.cast.slice(0, 6));
         }
       }
-    }, [tvcIsSuccess, more]);
+    }, [tvcIsSuccess, more, tvCastsData.cast]);
     console.log('🍎',tvDetailsData);
   
     return (
