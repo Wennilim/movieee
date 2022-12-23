@@ -119,10 +119,10 @@ export default function TVTrending() {
                   {/* <AspectRatio ratio={470/230}> */}
                   <Link href={`/tv/${tr.id}`}>
                     <Image
-                      layout="responsive"
-                      objectFit="cover"
-                      width={0}
-                      height={0}
+                      // layout="responsive"
+                      // objectFit="cover"
+                      width={140}
+                      height={220}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       alt="pic"
                     />

@@ -96,8 +96,8 @@ import { getTVCast, getTVDetails } from "../../api/tvAPI";
           setCast(tvCastsData.cast.slice(0, 6));
         }
       }
-    }, [tvcIsSuccess, more, tvCastsData.cast]);
-    console.log('🍎',tvDetailsData);
+    }, [tvcIsSuccess, more]);
+    // console.log('🍎',tvDetailsData);
   
     return (
       <Container fluid>
@@ -115,12 +115,6 @@ import { getTVCast, getTVDetails } from "../../api/tvAPI";
             <Text className={classes.tagline} mt={10} ml={20}>{tvDetailsData?.tagline}</Text>
             {/* <Rating initialRating={5} readonly /> */}
             <Flex my={20} justify="space-around" direction="row">
-              {/* <Flex direction="column">
-                <Text className={classes.font} fw={800}>
-                  Length
-                </Text>
-                <Text>{tvDetailsData?.episode_run_time} min</Text>
-              </Flex> */}
               <Flex direction="column">
                 <Text className={classes.font} fw={800}>
                   Language
