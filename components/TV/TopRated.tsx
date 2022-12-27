@@ -53,13 +53,13 @@ export default function TopRated({ media_type }: CardProps): JSX.Element {
   } = useQuery(["Top Rated"], () => getTopRated());
   const cards =
     trIsSuccess &&
-    trData.results.slice(0, 4).map((tr: any) => (
+    trData.results?.slice(0, 4).map((tr: any) => (
       <Card
         key={tr.id}
         p="md"
         radius="md"
         component="a"
-        href="#"
+        href={`/tv/${tr.id}`}
         className={classes.card}
       >
         <AspectRatio ratio={1920 / 1080}>
@@ -81,7 +81,7 @@ export default function TopRated({ media_type }: CardProps): JSX.Element {
         </Text>
       </Card>
     ));
-
+   
   // console.log('🎾',trData.results[0].first_air_date?.slice(0,4));
   return (
     <Flex align="flex-start">

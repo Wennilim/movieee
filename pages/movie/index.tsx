@@ -46,14 +46,14 @@ const Movie = () => {
   } = useQuery(["movie category"], getMovieCategory);
   return (
     <Container fluid m={120}>
-      <Flex justify='center' align='center'>
-        <Grid grow>
-        {mcIsLoading && <div>Loading...</div>}
+      <Flex justify="center" align="center">
+        <Grid columns={12} grow>
+          {mcIsLoading && <div>Loading...</div>}
           {mcIsSuccess &&
             mcData.genres.map((mc: any) => (
               <div key={mc.id}>
-                <Grid.Col span={5} lg={2}>
-                  <Cards name={mc.name} />
+                <Grid.Col span={6} lg={2}>
+                  <Cards category='movie' name={mc.name} id={mc.id} />
                 </Grid.Col>
               </div>
             ))}

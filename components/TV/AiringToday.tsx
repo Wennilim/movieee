@@ -60,7 +60,7 @@ import Link from "next/link";
           p="md"
           radius="md"
           component="a"
-          href="#"
+          href={`/tv/${ar.id}`}
           className={classes.card}
         >
           <AspectRatio ratio={1920 / 1080}>

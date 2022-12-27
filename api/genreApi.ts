@@ -19,3 +19,4 @@ export const getTVCategory = (config: ApiRequestConfig = {}) =>
         config
       )
       .then((res) => res.data);
+

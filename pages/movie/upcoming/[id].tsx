@@ -111,7 +111,7 @@ export default function Upcoming() {
                   p="md"
                   radius="md"
                   component="a"
-                  href="#"
+                  href={`/movie/${tr.id}`} 
                   className={classes.card}
                 >
                   <Card.Section>

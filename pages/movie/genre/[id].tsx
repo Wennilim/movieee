@@ -1,25 +1,20 @@
 import {
-  AspectRatio,
   Button,
   Card,
   Code,
   Container,
   createStyles,
   Flex,
-  Paper,
   SimpleGrid,
   Text,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { getTrending } from "../../../api/trendingApi";
-import { Pagination } from "@mantine/core";
-import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
+import React from "react";
 import Link from "next/link";
-import { getTVTrending } from "../../../api/trendingApi";
-import { getTVOnAir, getTVPopular } from "../../../api/popularTVAPi";
+import { getMovieByCategory } from "../../../api/discoverAPI";
+import { getMovieCategory } from "../../../api/genreApi";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -34,7 +29,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: 16,
   },
 
   category: {
@@ -72,66 +67,65 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function TVOnAir() {
+export default function MovieCategory() {
   const router = useRouter();
-  const page = Number(router.query.id);
+  const page = Number(router.query.page);
+  const categoryID = Number(router.query.id);
+  const categoryName = router.query.name;
   const { classes } = useStyles();
   const {
-    data: tvOnairData,
-    isLoading: tvOnairIsLoading,
-    isSuccess: tvOnairIsSuccess,
-  } = useQuery(["tvonair", page], () => getTVOnAir(page));
+    data: upData,
+    isLoading: upIsLoading,
+    isSuccess: upIsSuccess,
+  } = useQuery(["moviebycategory", categoryID, page], () =>
+    getMovieByCategory(categoryID, page)
+  );
 
   if (page < 1 || page > 1000) {
     return null;
   }
-
   return (
     <Container>
       <Flex m={20}>
-        <Text className={classes.fontStyle}>On Air</Text>
+        <Text className={classes.fontStyle}>{categoryName}</Text>
+
         <Flex ml="md" align="flex-end">
-          <Code color="pink">
+          <Code color="blue">
             <Text
               variant="gradient"
-              gradient={{ from: "purple", to: "pink", deg: 45 }}
+              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
               fw={800}
               fz={10}
             >
-              TV SERIES
+              MOVIE
             </Text>
           </Code>
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
-        {tvOnairIsSuccess &&
-          tvOnairData.results.map((tr: any) => (
+        {upIsSuccess &&
+          upData.results.map((tr: any) => (
             <>
               <Card
                 key={tr.id}
                 p="md"
                 radius="md"
                 component="a"
-                href="#"
+                href={`/movie/${tr.id}`}
                 className={classes.card}
               >
                 <Card.Section>
-                  {/* <AspectRatio ratio={470/230}> */}
-                  <Link href={`/tv/${tr.id}`}>
+                  <Link href={`/movie/${tr.id}`}>
                     <Image
-                      // layout="responsive"
-                      // objectFit="cover"
-                      // width={0}
-                      // height={0}
-                      width={140}
-                      height={220}
+                      layout="responsive"
+                      objectFit="cover"
+                      width={0}
+                      height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                      // src={Dog}
                       alt="pic"
                     />
                   </Link>
 
-                  {/* </AspectRatio> */}
                   <Text
                     color="red"
                     size="xs"
@@ -139,10 +133,10 @@ export default function TVOnAir() {
                     weight={700}
                     mt="md"
                   >
-                    {tr.first_air_date?.slice(0, 4)}
+                    {tr.release_date?.slice(0, 4)}
                   </Text>
                   <Text className={classes.title} mt={5}>
-                    {tr.name}
+                    {tr.title}
                   </Text>
                 </Card.Section>
               </Card>
@@ -151,7 +145,11 @@ export default function TVOnAir() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link href={`/tv/onair/${page - 1}`}>
+        <Link
+          href={`/movie/genre/${categoryID}?name=${categoryName}&page=${
+            page - 1
+          }`}
+        >
           <Button
             // data-disabled={page === 1}
             // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
@@ -163,9 +161,13 @@ export default function TVOnAir() {
           </Button>
         </Link>
         <Text className={classes.paddingPagination}>
-          {page} of {tvOnairData?.total_pages}
+          {page} of {upData?.total_pages}
         </Text>
-        <Link href={`/tv/onair/${page + 1}`}>
+        <Link
+          href={`/movie/genre/${categoryID}?name=${categoryName}&page=${
+            page + 1
+          }`}
+        >
           <Button disabled={page === 1000} color="yellow">
             Next
           </Button>

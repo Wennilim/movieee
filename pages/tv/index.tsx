@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Button,
-  Card,
   Container,
   createStyles,
-  Flex,
   Grid,
   Paper,
-  Text,
 } from "@mantine/core";
 import Cards from "../../components/Cards";
 import { useQuery } from "@tanstack/react-query";
@@ -51,7 +47,7 @@ const TV = () => {
             mcData.genres.map((mc: any) => (
               <div key={mc.id}>
                 <Grid.Col span={5} lg={2}>
-                  <Cards name={mc.name} />
+                  <Cards category="tv" name={mc.name} id={mc.id}/>
                 </Grid.Col>
               </div>
             ))}

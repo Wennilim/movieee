@@ -60,7 +60,7 @@ export default function OnAir({ media_type }: CardProps): JSX.Element {
         p="md"
         radius="md"
         component="a"
-        href="#"
+        href={`/tv/${onAir.id}`}
         className={classes.card}
       >
         <AspectRatio ratio={1920 / 1080}>

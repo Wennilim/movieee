@@ -59,7 +59,7 @@ export default function NowPlaying({ media_type }: CardProps): JSX.Element {
         p="md"
         radius="md"
         component="a"
-        href="#"
+        href={`/movie/${np.id}`}   
         className={classes.card}
       >
         <AspectRatio ratio={1920 / 1080}>

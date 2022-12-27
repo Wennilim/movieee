@@ -1,24 +1,18 @@
 import {
-  AspectRatio,
   Button,
   Card,
   Code,
   Container,
   createStyles,
   Flex,
-  Paper,
   SimpleGrid,
   Text,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { getTrending } from "../../../api/trendingApi";
-import { Pagination } from "@mantine/core";
-import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
+import React from "react";
 import Link from "next/link";
-import { getTVTrending } from "../../../api/trendingApi";
 import { getTVPopular } from "../../../api/popularTVAPi";
 const useStyles = createStyles((theme) => ({
   card: {
@@ -120,17 +114,13 @@ export default function TVPopular() {
                   {/* <AspectRatio ratio={470/230}> */}
                   <Link href={`/tv/${tr.id}`}>
                     <Image
-                      layout="responsive"
-                      objectFit="cover"
-                      width={0}
-                      height={0}
+                      width={140}
+                      height={220}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                      // src={Dog}
                       alt="pic"
                     />
                   </Link>
 
-                  {/* </AspectRatio> */}
                   <Text
                     color="red"
                     size="xs"
