@@ -28,7 +28,7 @@ export const getTVOnAir = (page?: number,config: ApiRequestConfig = {}) =>
          )
         .then((res) => res.data);
 
-export const getTopRated = (page?: number,config: ApiRequestConfig = {}) =>
+export const getTVTopRated = (page?: number,config: ApiRequestConfig = {}) =>
         api
           .get(
             `${MAIN_URL}/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`,

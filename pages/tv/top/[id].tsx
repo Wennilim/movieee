@@ -19,7 +19,7 @@ import { Pagination } from "@mantine/core";
 import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import Link from "next/link";
 import { getTVTrending } from "../../../api/trendingApi";
-import { getTVOnAir, getTopRated } from "../../../api/popularTVAPi";
+import {  getTVTopRated } from "../../../api/popularTVAPi";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -80,7 +80,7 @@ export default function TVTop() {
     data: tvTopData,
     isLoading: tvTopIsLoading,
     isSuccess: tvTopIsSuccess,
-  } = useQuery(["tvtop", page], () => getTopRated(page));
+  } = useQuery(["tvtop", page], () => getTVTopRated(page));
 
   if (page < 1 || page > 1000) {
     return null;
@@ -103,7 +103,7 @@ export default function TVTop() {
           </Code>
         </Flex>
       </Flex>
-      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
         {tvTopIsSuccess &&
           tvTopData.results.map((tr: any) => (
             <>
@@ -119,12 +119,12 @@ export default function TVTop() {
                   {/* <AspectRatio ratio={470/230}> */}
                   <Link href={`/tv/${tr.id}`}>
                     <Image
-                      // layout="responsive"
-                      // objectFit="cover"
+                      layout="responsive"
+                      objectFit="cover"
                       // width={0}
                       // height={0}
-                      width={140}
-                      height={220}
+                      width={0}
+                      height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       // src={Dog}
                       alt="pic"

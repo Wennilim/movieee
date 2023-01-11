@@ -101,9 +101,9 @@ export default function TVTrending() {
               TV SERIES
             </Text>
           </Code>
-        </Flex>
+        </Flex>   
       </Flex>
-      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
         {tvTrendingIsSuccess &&
           tvTrendingData.results.map((tr: any) => (
             <>
@@ -119,10 +119,10 @@ export default function TVTrending() {
                   {/* <AspectRatio ratio={470/230}> */}
                   <Link href={`/tv/${tr.id}`}>
                     <Image
-                      // layout="responsive"
-                      // objectFit="cover"
-                      width={140}
-                      height={220}
+                      layout="responsive"
+                      objectFit="cover"
+                      width={0}
+                      height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       alt="pic"
                     />

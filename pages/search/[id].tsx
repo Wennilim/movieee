@@ -10,10 +10,10 @@ import {
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import Link from "next/link";
-import { getTVPopular } from "../../../api/popularTVAPi";
+import { getSearchMulti } from "../../api/searchAPI";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: 16,
   },
 
   category: {
@@ -65,42 +65,33 @@ const useStyles = createStyles((theme) => ({
     cursor: "not-allowed",
   },
 }));
-
-export default function TVPopular() {
+export default function SearchResultPage() {
   const router = useRouter();
   const page = Number(router.query.id);
+  const query = router.query.query;
+  // console.log(query, page);
   const { classes } = useStyles();
-  const {
-    data: tvPopularData,
-    isLoading: tvPopularIsLoading,
-    isSuccess: tvPopularIsSuccess,
-  } = useQuery(["tvpopular", page], () => getTVPopular(page));
+  console.log("🐞", query);
 
-  if (page < 1 || page > 1000) {
-    return null;
-  }
+  const {
+    data: searchData,
+    isLoading: searchIsLoading,
+    isSuccess: searchIsSuccess,
+  } = useQuery(["searchMulti", query, page], () => getSearchMulti(query, page));
+  searchIsSuccess && console.log("🐱", searchData.results[0].title);
 
   return (
-    // <div>{router.query.id}</div>
     <Container>
       <Flex m={20}>
-        <Text className={classes.fontStyle}>Popular</Text>
-        <Flex ml="md" align="flex-end">
-          <Code color="pink">
-            <Text
-              variant="gradient"
-              gradient={{ from: "purple", to: "pink", deg: 45 }}
-              fw={800}
-              fz={10}
-            >
-              TV SERIES
-            </Text>
-          </Code>
-        </Flex>
+        <Text className={classes.fontStyle}>Search</Text>
       </Flex>
-      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
-        {tvPopularIsSuccess &&
-          tvPopularData.results.map((tr: any) => (
+      <Flex fz={12} mb={15}>
+        <Text>Search keywords: </Text>
+        <Text fw={900}>{query}</Text>
+      </Flex>
+      <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+        {searchIsSuccess &&
+          searchData.results.map((tr: any) => (
             <>
               <Card
                 key={tr.id}
@@ -112,17 +103,19 @@ export default function TVPopular() {
               >
                 <Card.Section>
                   {/* <AspectRatio ratio={470/230}> */}
-                  <Link href={`/tv/${tr.id}`}>
+                  <Link href={`/movie/${tr.id}`}>
                     <Image
                       layout="responsive"
                       objectFit="cover"
                       width={0}
                       height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
+                      // src={Dog}
                       alt="pic"
                     />
                   </Link>
 
+                  {/* </AspectRatio> */}
                   <Text
                     color="red"
                     size="xs"
@@ -130,10 +123,10 @@ export default function TVPopular() {
                     weight={700}
                     mt="md"
                   >
-                    {tr.first_air_date?.slice(0, 4)}
+                    {tr.release_date?.slice(0, 4)}
                   </Text>
                   <Text className={classes.title} mt={5}>
-                    {tr.name}
+                    {tr.title}
                   </Text>
                 </Card.Section>
               </Card>
@@ -142,26 +135,26 @@ export default function TVPopular() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link href={`/tv/popular/${page - 1}`}>
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
-        </Link>
-        <Text className={classes.paddingPagination}>
-          {page} of {tvPopularData?.total_pages}
-        </Text>
-        <Link href={`/tv/popular/${page + 1}`}>
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
-        </Link>
-      </Flex>
+      <Link href={`/movie/popular/${page - 1}`}>
+        <Button
+          // data-disabled={page === 1}
+          // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+          // onClick={(event) => event.preventDefault()}
+          disabled={page === 1}
+          color="yellow"
+        >
+          Previous
+        </Button>
+      </Link>
+      <Text className={classes.paddingPagination}>
+        {page} of {searchData?.total_pages}
+      </Text>
+      <Link href={`/movie/popular/${page + 1}`}>
+        <Button disabled={page === 1000} color="yellow">
+          Next
+        </Button>
+      </Link>
+    </Flex>
     </Container>
   );
 }

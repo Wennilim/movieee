@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import {
   Navbar,
-  Center,
   Tooltip,
   UnstyledButton,
   createStyles,
   Stack,
   Box,
-  MediaQuery,
+  Flex,
 } from "@mantine/core";
 import {
   TablerIcon,
@@ -15,8 +14,6 @@ import {
   IconCategory,
   IconMovie,
   IconDeviceTv,
-  // IconLogout,
-  // IconSwitchHorizontal,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -24,8 +21,8 @@ import { useMediaQuery } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   link: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: theme.radius.lg,
     display: "flex",
     alignItems: "center",
@@ -67,6 +64,7 @@ function NavbarLink({
   onClick,
 }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
+
   return (
     <Link href={href}>
       <Tooltip label={label} position="right" transitionDuration={0}>
@@ -87,7 +85,7 @@ const mockdata = [
   { icon: IconDeviceTv, label: "TV", path: "/tv" },
 ];
 
-export default function Navibar() {
+export default function Navibar2() {
   const [active, setActive] = useState(0);
   const router = useRouter();
 
@@ -97,13 +95,8 @@ export default function Navibar() {
       href={link.path}
       key={link.label}
       active={index === active}
-      // onClick={() => {
-      //   setActive(index);
-      //   router.push(link.path);
-      // }}
     />
   ));
-  // console.log(router.pathname)
 
   useEffect(() => {
     if (router.pathname === "/movie") {
@@ -114,27 +107,47 @@ export default function Navibar() {
       setActive(0);
     }
   }, [router.pathname]);
-  const matchesSmall = useMediaQuery("(min-width: 1024px)");
+
   const { classes } = useStyles();
+  const mobileSize = useMediaQuery("(max-width: 320px)");
   return (
-    <Box pos="fixed">
-      <Navbar
-        className={classes.br}
-        height={500}
-        width={{ base: 80 }}
-        my="xl"
-        pt="xl"
-        p="md"
-        sx={(theme) => ({
-          backgroundColor: "#FBEDB4",
-        })}
-      >
-        <Navbar.Section grow mt={110}>
-          <Stack justify="center" spacing={35}>
-            {links}
-          </Stack>
-        </Navbar.Section>
-      </Navbar>
+    <Box>
+      {mobileSize ? (
+        <Navbar
+          className={classes.br}
+          height={50}
+          width={{ base: 230 }}
+          ml={-34} 
+          my="xs"
+          pt="xl"
+          // p="sm"
+          sx={(theme) => ({
+            backgroundColor: "#FBEDB4",
+          })}
+        >
+          <Navbar.Section grow mt={-18}>
+            <Flex justify="space-around">{links}</Flex>
+          </Navbar.Section>
+        </Navbar>
+      ) : (
+        <Navbar
+          className={classes.br}
+          height={50}
+          width={{ base: 250 }}
+          // mx='xl'
+          // mx={{base:'sm', xs:'sm'}}
+          my="xs"
+          pt="xl"
+          p="md"
+          sx={(theme) => ({
+            backgroundColor: "#FBEDB4",
+          })}
+        >
+          <Navbar.Section grow mt={-18}>
+            <Flex justify="space-around">{links}</Flex>
+          </Navbar.Section>
+        </Navbar>
+      )}
     </Box>
   );
 }

@@ -39,14 +39,14 @@ const TV = () => {
     isSuccess: mcIsSuccess,
   } = useQuery(["tv category"], getTVCategory);
   return (
-    <Container fluid m={120}>
+    <Container fluid m={80}>
       <Paper>
         <Grid grow>
         {mcIsLoading && <div>Loading...</div>}
           {mcIsSuccess &&
             mcData.genres.map((mc: any) => (
               <div key={mc.id}>
-                <Grid.Col span={5} lg={2}>
+                <Grid.Col span='auto' lg={2}>
                   <Cards category="tv" name={mc.name} id={mc.id}/>
                 </Grid.Col>
               </div>
