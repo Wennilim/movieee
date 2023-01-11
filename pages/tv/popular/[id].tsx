@@ -99,6 +99,7 @@ export default function TVPopular() {
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
+        {tvPopularIsLoading && <Text>Loading...</Text>}
         {tvPopularIsSuccess &&
           tvPopularData.results.map((tr: any) => (
             <>

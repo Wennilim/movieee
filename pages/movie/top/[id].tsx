@@ -103,6 +103,7 @@ export default function Top() {
             </Flex>
           </Flex>
         <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+        {topIsLoading && (<Text>Loading...</Text>)}
           {topIsSuccess &&
             topData.results.map((tr: any) => (
               <>

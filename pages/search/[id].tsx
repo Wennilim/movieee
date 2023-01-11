@@ -90,6 +90,7 @@ export default function SearchResultPage() {
         <Text fw={900}>{query}</Text>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+        {searchIsLoading && <Text>Loading...</Text>}
         {searchIsSuccess &&
           searchData.results.map((tr: any) => (
             <>
@@ -135,26 +136,26 @@ export default function SearchResultPage() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-      <Link href={`/movie/popular/${page - 1}`}>
-        <Button
-          // data-disabled={page === 1}
-          // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-          // onClick={(event) => event.preventDefault()}
-          disabled={page === 1}
-          color="yellow"
-        >
-          Previous
-        </Button>
-      </Link>
-      <Text className={classes.paddingPagination}>
-        {page} of {searchData?.total_pages}
-      </Text>
-      <Link href={`/movie/popular/${page + 1}`}>
-        <Button disabled={page === 1000} color="yellow">
-          Next
-        </Button>
-      </Link>
-    </Flex>
+        <Link href={`/movie/popular/${page - 1}`}>
+          <Button
+            // data-disabled={page === 1}
+            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+            // onClick={(event) => event.preventDefault()}
+            disabled={page === 1}
+            color="yellow"
+          >
+            Previous
+          </Button>
+        </Link>
+        <Text className={classes.paddingPagination}>
+          {page} of {searchData?.total_pages}
+        </Text>
+        <Link href={`/movie/popular/${page + 1}`}>
+          <Button disabled={page === 1000} color="yellow">
+            Next
+          </Button>
+        </Link>
+      </Flex>
     </Container>
   );
 }

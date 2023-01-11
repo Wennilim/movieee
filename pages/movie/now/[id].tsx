@@ -85,7 +85,6 @@ export default function Now() {
     }
   
     return (
-      // <div>{router.query.id}</div>
       <Container>
          <Flex m={20}>
             <Text className={classes.fontStyle}>Now Playing</Text>
@@ -103,6 +102,7 @@ export default function Now() {
             </Flex>
           </Flex>
         <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+          {nowIsLoading && (<Text>Loading...</Text>)}
           {nowIsSuccess &&
             nowData.results.map((tr: any) => (
               <>

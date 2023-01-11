@@ -110,7 +110,6 @@ export default function CardPage(): JSX.Element {
       }
     }
   }, [mcIsSuccess, more]);
-  console.log(movieDetailsData);
 
   return (
     <>
@@ -164,6 +163,7 @@ export default function CardPage(): JSX.Element {
                   Genres
                 </Text>
                 <Flex direction="row">
+                  {mdIsLoading && <Text>Loading...</Text>}
                   {mdIsSuccess &&
                     movieDetailsData.genres.map((md: any) => (
                       <Flex key={md.id} direction="row">
@@ -187,6 +187,7 @@ export default function CardPage(): JSX.Element {
                     Casts
                   </Text>
                   <Grid grow gutter="xl">
+                    {mcIsLoading && <Text>Loading...</Text>}
                     {mcIsSuccess &&
                       cast.length !== 0 &&
                       cast?.map((mc: any) => (
@@ -302,6 +303,7 @@ export default function CardPage(): JSX.Element {
                   Genres
                 </Text>
                 <Flex direction="row">
+                  {mdIsLoading && <Text>Loading...</Text>}
                   {mdIsSuccess &&
                     movieDetailsData.genres.map((md: any) => (
                       <Flex key={md.id} direction="row">

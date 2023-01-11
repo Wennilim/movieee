@@ -104,6 +104,7 @@ export default function TVOnAir() {
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
+        {tvOnairIsLoading && <Text>Loading...</Text>}
         {tvOnairIsSuccess &&
           tvOnairData.results.map((tr: any) => (
             <>

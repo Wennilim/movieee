@@ -107,6 +107,7 @@ export default function TVCategory() {
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+        {upIsLoading && <Text>Loading...</Text>}
         {upIsSuccess &&
           upData.results.map((tr: any) => (
             <>

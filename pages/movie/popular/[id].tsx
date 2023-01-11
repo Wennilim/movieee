@@ -86,7 +86,6 @@ export default function Popular() {
   }
 
   return (
-    // <div>{router.query.id}</div>
     <Container>
       <Flex m={20}>
         <Text className={classes.fontStyle}>Popular</Text>
@@ -104,6 +103,7 @@ export default function Popular() {
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "sm", cols: 3 }]}>
+        {popularIsLoading && (<Text>Loading...</Text>)}
         {popularIsSuccess &&
           popularData.results.map((tr: any) => (
             <>

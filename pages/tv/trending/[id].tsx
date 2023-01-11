@@ -101,9 +101,10 @@ export default function TVTrending() {
               TV SERIES
             </Text>
           </Code>
-        </Flex>   
+        </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
+        {tvTrendingIsLoading && <Text>Loading...</Text>}
         {tvTrendingIsSuccess &&
           tvTrendingData.results.map((tr: any) => (
             <>

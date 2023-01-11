@@ -104,6 +104,7 @@ export default function TVTop() {
         </Flex>
       </Flex>
       <SimpleGrid cols={6} breakpoints={[{ maxWidth: "xs", cols: 3 }]}>
+      {tvTopIsLoading && (<Text>Loading...</Text>)}
         {tvTopIsSuccess &&
           tvTopData.results.map((tr: any) => (
             <>
