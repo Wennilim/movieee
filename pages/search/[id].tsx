@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { getSearchMulti } from "../../api/searchAPI";
+import { shimmer, toBase64 } from '../../utils'
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -71,14 +72,14 @@ export default function SearchResultPage() {
   const query = router.query.query;
   // console.log(query, page);
   const { classes } = useStyles();
-  console.log("🐞", query);
+  // console.log("🐞", query);
 
   const {
     data: searchData,
     isLoading: searchIsLoading,
     isSuccess: searchIsSuccess,
   } = useQuery(["searchMulti", query, page], () => getSearchMulti(query, page));
-  searchIsSuccess && console.log("🐱", searchData.results[0].title);
+
 
   return (
     <Container>
@@ -99,12 +100,12 @@ export default function SearchResultPage() {
                 p="md"
                 radius="md"
                 component="a"
-                href="#"
+                href={tr.media_type==='tv'?`/tv/${tr.id}`:`/movie/${tr.id}` }
                 className={classes.card}
               >
+
                 <Card.Section>
-                  {/* <AspectRatio ratio={470/230}> */}
-                  <Link href={`/movie/${tr.id}`}>
+                  <Link href={tr.media_type==='movie'?`/movie/${tr.id}`:`/tv/${tr.id}` }>
                     <Image
                       layout="responsive"
                       objectFit="cover"
@@ -113,7 +114,10 @@ export default function SearchResultPage() {
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       // src={Dog}
                       alt="pic"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
                     />
+                    {/* {console.log('666',tr)} */}
                   </Link>
 
                   {/* </AspectRatio> */}
@@ -124,10 +128,10 @@ export default function SearchResultPage() {
                     weight={700}
                     mt="md"
                   >
-                    {tr.release_date?.slice(0, 4)}
+                    {tr.media_type==='movie'? tr.release_date?.slice(0, 4): tr.first_air_date?.slice(0, 4)}
                   </Text>
                   <Text className={classes.title} mt={5}>
-                    {tr.title}
+                    {tr.media_type==='movie'? tr.title: tr.name}
                   </Text>
                 </Card.Section>
               </Card>
