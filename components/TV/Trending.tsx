@@ -20,7 +20,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from "swiper";
 import { getTVTrending } from "../../api/trendingApi";
 import Link from "next/link";
 import { useMediaQuery } from "@mantine/hooks";
-
+import { shimmer, toBase64 } from '../../utils'
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -111,6 +111,8 @@ export default function Trending({ media_type }: CardProps): JSX.Element {
             height={220}
             src={`https://image.tmdb.org/t/p/original/${pd.backdrop_path}`}
             alt="pic"
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
           />
         </Link>
 

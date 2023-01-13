@@ -16,6 +16,7 @@ import { getMovieCast, getMovieDetails } from "../../api/movieAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "@mantine/hooks";
+import { shimmer, toBase64 } from '../../utils'
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -121,6 +122,8 @@ export default function CardPage(): JSX.Element {
               height={600}
               src={`https://image.tmdb.org/t/p/original/${movieDetailsData?.poster_path}`}
               alt="pic"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
             />
             <Flex w={500} ml={30} direction="column">
               <Text className={classes.fontStyle} ml={20} fz={32} fw={800}>
@@ -249,6 +252,8 @@ export default function CardPage(): JSX.Element {
               height={300}
               src={`https://image.tmdb.org/t/p/original/${movieDetailsData?.poster_path}`}
               alt="pic"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
             />
             <Flex w={170} direction="column">
               <Text

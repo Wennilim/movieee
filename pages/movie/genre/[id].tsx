@@ -15,6 +15,7 @@ import React from "react";
 import Link from "next/link";
 import { getMovieByCategory } from "../../../api/discoverAPI";
 import { getMovieCategory } from "../../../api/genreApi";
+import { shimmer, toBase64 } from '../../../utils'
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -124,6 +125,8 @@ export default function MovieCategory() {
                       height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       alt="pic"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
                     />
                   </Link>
 

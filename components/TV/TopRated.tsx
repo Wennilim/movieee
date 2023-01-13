@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { getTVTopRated } from "../../api/popularTVAPi";
+import { shimmer, toBase64 } from '../../utils'
 const useStyles = createStyles((theme) => ({
   fontStyle: {
     fontFamily: "Verdana",
@@ -78,6 +79,8 @@ export default function TopRated({ media_type }: CardProps): JSX.Element {
               height={230}
               src={`https://image.tmdb.org/t/p/original/${tr.backdrop_path}`}
               alt="pic"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
             />
           </Link>
         </AspectRatio>

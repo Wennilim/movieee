@@ -18,6 +18,7 @@ import { getTrending } from "../../../api/trendingApi";
 import { Pagination } from "@mantine/core";
 import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import Link from "next/link";
+import { shimmer, toBase64 } from '../../../utils'
 // import ErrorPage from "../../../components/error/errorPage";
 const useStyles = createStyles((theme) => ({
   card: {
@@ -126,6 +127,8 @@ export default function Trending() {
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       // src={Dog}
                       alt="pic"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
                     />
                   </Link>
 

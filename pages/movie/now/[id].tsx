@@ -19,6 +19,7 @@ import {
   import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
   import Link from "next/link";
   import { getNowPlaying, getPopular } from "../../../api/popularApi";
+  import { shimmer, toBase64 } from '../../../utils'
   const useStyles = createStyles((theme) => ({
     card: {
       height: 300,
@@ -125,6 +126,8 @@ export default function Now() {
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
                       // src={Dog}
                       alt="pic"
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
                     />
                     </Link>
                     
