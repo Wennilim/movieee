@@ -18,7 +18,7 @@ import { getTrending } from "../../../api/trendingApi";
 import { Pagination } from "@mantine/core";
 import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
 import Link from "next/link";
-import { shimmer, toBase64 } from '../../../utils'
+import { shimmer, toBase64 } from "../../../utils";
 // import ErrorPage from "../../../components/error/errorPage";
 const useStyles = createStyles((theme) => ({
   card: {
@@ -82,9 +82,8 @@ export default function Trending() {
     isSuccess: trdIsSuccess,
   } = useQuery(["trending", page], () => getTrending(page));
 
-  if (page < 1 || page > 1000) {
-    return null;
-  }
+  let hasPrev = page > 0;
+  let hasNext = page < trendingData?.total_pages;
 
   return (
     <Container>
@@ -128,7 +127,9 @@ export default function Trending() {
                       // src={Dog}
                       alt="pic"
                       placeholder="blur"
-                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(350, 530)
+                      )}`}
                     />
                   </Link>
 
@@ -153,23 +154,35 @@ export default function Trending() {
 
       <Flex justify="flex-end" dir="row" align="center">
         <Link href={`/movie/trending/${page - 1}`}>
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
+          {!hasPrev || page === 1 ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Previous
+            </Button>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
         </Link>
         <Text className={classes.paddingPagination}>
           {page} of {trendingData?.total_pages}
         </Text>
         <Link href={`/movie/trending/${page + 1}`}>
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
+        {!hasNext || page === trendingData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
         </Link>
       </Flex>
     </Container>

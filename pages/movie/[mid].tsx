@@ -4,19 +4,17 @@ import {
   createStyles,
   Flex,
   Grid,
-  Text,
+  Text
 } from "@mantine/core";
 import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import Rating from "react-rating";
-import Dog from "../../assets/dog.jpeg";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconLink, IconMovie } from "@tabler/icons";
-import { getMovieCast, getMovieDetails } from "../../api/movieAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMediaQuery } from "@mantine/hooks";
-import { shimmer, toBase64 } from '../../utils'
+import { getMovieCast, getMovieDetails } from "../../api/movieAPI";
+import { shimmer, toBase64 } from '../../utils';
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,

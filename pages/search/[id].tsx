@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { getSearchMulti } from "../../api/searchAPI";
-import { shimmer, toBase64 } from '../../utils'
+import { shimmer, toBase64 } from "../../utils";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -79,6 +79,8 @@ export default function SearchResultPage() {
     isLoading: searchIsLoading,
     isSuccess: searchIsSuccess,
   } = useQuery(["searchMulti", query, page], () => getSearchMulti(query, page));
+  let hasPrev = page > 0;
+  let hasNext = page < searchData?.total_pages;
 
 
   return (
@@ -100,12 +102,19 @@ export default function SearchResultPage() {
                 p="md"
                 radius="md"
                 component="a"
-                href={tr.media_type==='tv'?`/tv/${tr.id}`:`/movie/${tr.id}` }
+                href={
+                  tr.media_type === "tv" ? `/tv/${tr.id}` : `/movie/${tr.id}`
+                }
                 className={classes.card}
               >
-
                 <Card.Section>
-                  <Link href={tr.media_type==='movie'?`/movie/${tr.id}`:`/tv/${tr.id}` }>
+                  <Link
+                    href={
+                      tr.media_type === "movie"
+                        ? `/movie/${tr.id}`
+                        : `/tv/${tr.id}`
+                    }
+                  >
                     <Image
                       layout="responsive"
                       objectFit="cover"
@@ -115,7 +124,9 @@ export default function SearchResultPage() {
                       // src={Dog}
                       alt="pic"
                       placeholder="blur"
-                      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(350, 530)
+                      )}`}
                     />
                     {/* {console.log('666',tr)} */}
                   </Link>
@@ -128,10 +139,12 @@ export default function SearchResultPage() {
                     weight={700}
                     mt="md"
                   >
-                    {tr.media_type==='movie'? tr.release_date?.slice(0, 4): tr.first_air_date?.slice(0, 4)}
+                    {tr.media_type === "movie"
+                      ? tr.release_date?.slice(0, 4)
+                      : tr.first_air_date?.slice(0, 4)}
                   </Text>
                   <Text className={classes.title} mt={5}>
-                    {tr.media_type==='movie'? tr.title: tr.name}
+                    {tr.media_type === "movie" ? tr.title : tr.name}
                   </Text>
                 </Card.Section>
               </Card>
@@ -140,24 +153,36 @@ export default function SearchResultPage() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link href={`/movie/popular/${page - 1}`}>
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
+        <Link href={`/search/${page - 1}?query=${query}`}>
+          {!hasPrev || page === 1 ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Previous
+            </Button>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
         </Link>
         <Text className={classes.paddingPagination}>
           {page} of {searchData?.total_pages}
         </Text>
-        <Link href={`/movie/popular/${page + 1}`}>
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
+        <Link href={`/search/${page + 1}?query=${query}`}>
+          {!hasNext || page === searchData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next 
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
         </Link>
       </Flex>
     </Container>

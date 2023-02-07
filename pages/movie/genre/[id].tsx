@@ -82,9 +82,9 @@ export default function MovieCategory() {
     getMovieByCategory(categoryID, page)
   );
 
-  if (page < 1 || page > 1000) {
-    return null;
-  }
+ 
+  let hasPrev = page > 0;
+  let hasNext = page < upData?.total_pages;
   return (
     <Container>
       <Flex m={20}>
@@ -149,32 +149,36 @@ export default function MovieCategory() {
       </SimpleGrid>
 
       <Flex justify="flex-end" dir="row" align="center">
-        <Link
-          href={`/movie/genre/${categoryID}?name=${categoryName}&page=${
-            page - 1
-          }`}
-        >
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
+        <Link href={`/movie/trending/${page - 1}`}>
+          {!hasPrev || page === 1 ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Previous
+            </Button>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
         </Link>
         <Text className={classes.paddingPagination}>
           {page} of {upData?.total_pages}
         </Text>
-        <Link
-          href={`/movie/genre/${categoryID}?name=${categoryName}&page=${
-            page + 1
-          }`}
-        >
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
+        <Link href={`/movie/trending/${page + 1}`}>
+        {!hasNext || page === upData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
         </Link>
       </Flex>
     </Container>

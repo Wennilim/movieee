@@ -1,24 +1,17 @@
 import {
-    AspectRatio,
-    Button,
-    Card,
-    Code,
-    Container,
-    createStyles,
-    Flex,
-    Paper,
-    SimpleGrid,
-    Text,
-  } from "@mantine/core";
-  import { useQuery } from "@tanstack/react-query";
-  import Image from "next/image";
-  import { useRouter } from "next/router";
-  import React, { useState } from "react";
-  import { getTrending } from "../../../api/trendingApi";
-  import { Pagination } from "@mantine/core";
-  import { ButtonGroup } from "@mantine/core/lib/Button/ButtonGroup/ButtonGroup";
-  import Link from "next/link";
-  import { getNowPlaying, getPopular, getUpcoming } from "../../../api/popularApi";
+  Button,
+  Card,
+  Code,
+  Container,
+  createStyles,
+  Flex, SimpleGrid,
+  Text
+} from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getUpcoming } from "../../../api/popularApi";
   const useStyles = createStyles((theme) => ({
     card: {
       height: 300,
@@ -81,9 +74,8 @@ export default function Upcoming() {
       isSuccess: upIsSuccess,
     } = useQuery(["upcoming", page], () => getUpcoming(page));
   
-    if (page < 1 || page > 1000) {
-      return null;
-    }
+    let hasPrev = page > 0;
+    let hasNext = page < upData?.total_pages;
   
     return (
       <Container>
@@ -148,27 +140,38 @@ export default function Upcoming() {
         </SimpleGrid>
   
         <Flex justify="flex-end" dir="row" align="center">
-          <Link href={`/movie/upcoming/${page - 1}`}>
-           
+        <Link href={`/movie/upcoming/${page - 1}`}>
+          {!hasPrev || page === 1 ? (
             <Button
-              // data-disabled={page === 1}
-              // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-              // onClick={(event) => event.preventDefault()}
-              disabled={page===1}
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
               color="yellow"
             >
               Previous
             </Button>
-          </Link>
-          <Text className={classes.paddingPagination}>
-            {page} of {upData?.total_pages}
-          </Text>
-          <Link
-            href={`/movie/upcoming/${page + 1}`}
-          >
-            <Button disabled={page === 1000} color="yellow">Next</Button>
-          </Link>
-        </Flex>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
+        </Link>
+        <Text className={classes.paddingPagination}>
+          {page} of {upData?.total_pages}
+        </Text>
+        <Link href={`/movie/upcoming/${page + 1}`}>
+        {!hasNext || page === upData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
+        </Link>
+      </Flex>
       </Container>
     );
 }

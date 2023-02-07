@@ -28,6 +28,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
 import { shimmer, toBase64 } from '../utils'
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -93,6 +94,7 @@ type CardProps = {
 
 export default function Trending({ media_type }: CardProps) {
   const { classes } = useStyles();
+  const [imgSrc, setImgSrc] = useState()
   const matchesSmall = useMediaQuery("(min-width: 1024px)");
 
   const {
@@ -120,6 +122,9 @@ export default function Trending({ media_type }: CardProps) {
             alt="pic"
             placeholder="blur"
             blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350,530))}`}
+            onError={()=>{
+              setImgSrc('/assets/noImg.png')
+            }}
           />
         </Link>
 

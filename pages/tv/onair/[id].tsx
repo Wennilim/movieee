@@ -82,9 +82,9 @@ export default function TVOnAir() {
     isSuccess: tvOnairIsSuccess,
   } = useQuery(["tvonair", page], () => getTVOnAir(page));
 
-  if (page < 1 || page > 1000) {
-    return null;
-  }
+
+  let hasPrev = page > 0;
+  let hasNext = page < tvOnairData?.total_pages;
 
   return (
     <Container>
@@ -153,23 +153,35 @@ export default function TVOnAir() {
 
       <Flex justify="flex-end" dir="row" align="center">
         <Link href={`/tv/onair/${page - 1}`}>
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
+        {!hasPrev || page === 1 ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Previous
+            </Button>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
         </Link>
         <Text className={classes.paddingPagination}>
           {page} of {tvOnairData?.total_pages}
         </Text>
         <Link href={`/tv/onair/${page + 1}`}>
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
+        {!hasNext || page === tvOnairData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next 
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
         </Link>
       </Flex>
     </Container>

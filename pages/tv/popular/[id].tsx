@@ -76,9 +76,8 @@ export default function TVPopular() {
     isSuccess: tvPopularIsSuccess,
   } = useQuery(["tvpopular", page], () => getTVPopular(page));
 
-  if (page < 1 || page > 1000) {
-    return null;
-  }
+  let hasPrev = page > 0;
+  let hasNext = page < tvPopularData?.total_pages;
 
   return (
     // <div>{router.query.id}</div>
@@ -144,23 +143,35 @@ export default function TVPopular() {
 
       <Flex justify="flex-end" dir="row" align="center">
         <Link href={`/tv/popular/${page - 1}`}>
-          <Button
-            // data-disabled={page === 1}
-            // sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
-            // onClick={(event) => event.preventDefault()}
-            disabled={page === 1}
-            color="yellow"
-          >
-            Previous
-          </Button>
+        {!hasPrev || page === 1 ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Previous
+            </Button>
+          ) : (
+            <Button color="yellow">Previous</Button>
+          )}
         </Link>
         <Text className={classes.paddingPagination}>
           {page} of {tvPopularData?.total_pages}
         </Text>
         <Link href={`/tv/popular/${page + 1}`}>
-          <Button disabled={page === 1000} color="yellow">
-            Next
-          </Button>
+        {!hasNext || page === tvPopularData?.total_pages ? (
+            <Button
+              data-disabled
+              sx={{ "&[data-disabled]": { pointerEvents: "all" } }}
+              onClick={(e) => e.preventDefault()}
+              color="yellow"
+            >
+              Next 
+            </Button>
+          ) : (
+            <Button color="yellow">Next</Button>
+          )}
         </Link>
       </Flex>
     </Container>
