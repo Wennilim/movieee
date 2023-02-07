@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { getSearchMulti } from "../../api/searchAPI";
 import { shimmer, toBase64 } from "../../utils";
+import noImg from "./noImg.png";
 const useStyles = createStyles((theme) => ({
   card: {
     height: 300,
@@ -70,9 +71,7 @@ export default function SearchResultPage() {
   const router = useRouter();
   const page = Number(router.query.id);
   const query = router.query.query;
-  // console.log(query, page);
   const { classes } = useStyles();
-  // console.log("🐞", query);
 
   const {
     data: searchData,
@@ -81,7 +80,6 @@ export default function SearchResultPage() {
   } = useQuery(["searchMulti", query, page], () => getSearchMulti(query, page));
   let hasPrev = page > 0;
   let hasNext = page < searchData?.total_pages;
-
 
   return (
     <Container>
@@ -121,9 +119,9 @@ export default function SearchResultPage() {
                       width={0}
                       height={0}
                       src={`https://image.tmdb.org/t/p/original/${tr.poster_path}`}
-                      // src={Dog}
                       alt="pic"
                       placeholder="blur"
+                      unoptimized
                       blurDataURL={`data:image/svg+xml;base64,${toBase64(
                         shimmer(350, 530)
                       )}`}
@@ -178,7 +176,7 @@ export default function SearchResultPage() {
               onClick={(e) => e.preventDefault()}
               color="yellow"
             >
-              Next 
+              Next
             </Button>
           ) : (
             <Button color="yellow">Next</Button>
@@ -187,4 +185,7 @@ export default function SearchResultPage() {
       </Flex>
     </Container>
   );
+}
+function useState(): [any, any] {
+  throw new Error("Function not implemented.");
 }
